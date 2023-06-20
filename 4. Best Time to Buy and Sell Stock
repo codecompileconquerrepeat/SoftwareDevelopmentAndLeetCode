@@ -1,0 +1,43 @@
+// 4.Best Time to Buy and Sell Stock (4/169)
+
+// O(N^2) gives TLE but is correct.
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int globalMax = 0;
+        for(int i=0; i<prices.size(); i++){
+            for(int j=i; j<prices.size(); j++){
+                globalMax = max(globalMax, prices[j] - prices[i]);
+            }
+        }
+        return globalMax;
+    }
+};
+
+// Non DP solution in O(N) uses Greedy and modified Kedane's. DP gives the solution in O(N^2) hence not making it the best possible solution.
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int max_cur = 0, max_global = 0;
+        for(int i=1; i<prices.size(); i++){
+            max_cur = max(0, max_cur += prices[i] - prices[i-1]);
+            if(max_cur > max_global)
+                max_global = max_cur;
+        }
+        if(max_global < 0)
+            return 0;
+        return max_global;
+    }
+};
+
+// Better Readability
+class Solution {
+    public int maxProfit(int[] prices) {
+        int buy = Integer.MAX_VALUE, sell = 0;
+        for(int i=0;i<prices.length;i++){
+            buy = Math.min(buy,prices[i]);
+            sell = Math.max(sell,prices[i]-buy);
+        }
+       return sell;
+    }
+}
